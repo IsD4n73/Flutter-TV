@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../commons/vars.dart';
 
 Widget buildList(BuildContext context, int index) {
   return InkWell(
-      onTap: () {
+      onTap: () async {
         String url = channelList[index]['nome'];
         if (url.endsWith(".m3u8") || url.endsWith("m3u")) {
           print("Apri lista");
+          await launchUrl(Uri.parse(url));
         } else if (url == "page") {
           print("Apertura pagina");
         } else {
           print("apri link");
+          await launchUrl(Uri.parse(url));
         }
       },
       borderRadius: BorderRadius.circular(25),
@@ -27,6 +30,18 @@ Widget buildList(BuildContext context, int index) {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Container(
+              width: 70,
+              height: 70,
+              margin: const EdgeInsets.only(right: 15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                border: Border.all(width: 3, color: secondary),
+                image: DecorationImage(
+                    image: NetworkImage(channelList[index]['img']),
+                    fit: BoxFit.fill),
+              ),
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

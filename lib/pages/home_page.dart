@@ -17,10 +17,6 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
 
-@override
-  void initState() {
-    
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,14 +76,14 @@ class HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              Column(
-                children: <Widget>[
-                  const SizedBox(
-                    height: 110,
-                  ),
-                  //barraRIcerca(),
-                ],
-              )
+              // Column(
+              //   children: <Widget>[
+              //     const SizedBox(
+              //       height: 110,
+              //     ),
+              //     barraRIcerca(),
+              //   ],
+              // )
             ],
           ),
         ),

@@ -13,7 +13,7 @@ final List<Map> channelList = [
     {
       "nome": "Cineblog",
       "categorie": "Filem, Serie TV",
-      "url":
-          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+      "url": "https://cb01.delivery/",
+      "img": "https://s3-eu-west-1.amazonaws.com/tpd/logos/5d0639e4f86ec500015ee731/0x0.png"
     },
   ];

@@ -3,8 +3,11 @@ import 'package:flutter_tv/pages/home_page.dart';
 
 
 void main(List<String> args) {
-  runApp(const MaterialApp(
-    home: HomePage(),
+  runApp(MaterialApp(
+    home: const HomePage(),
+    theme: ThemeData(
+      primarySwatch: Colors.green,
+    ),
   ));
   
 }
