@@ -3,12 +3,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_tv/controller/get_channel.dart';
-import 'package:flutter_tv/controller/tmdb.dart';
 
 import '../commons/vars.dart';
-import 'barra_ricerca.dart';
 import 'home_field.dart';
 
 class HomePage extends StatefulWidget {
