@@ -1,6 +1,9 @@
 // ignore_for_file: sized_box_for_whitespace
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_tv/controller/get_channel.dart';
 import 'package:flutter_tv/controller/tmdb.dart';
 
@@ -16,7 +19,20 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  late List<Map<String, dynamic>> channels;
+  late String jsontxt;
 
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      await getChannels().then((value) => jsontxt = value);
+      print(jsontxt);
+      setState(() {
+        channels = (json.decode(jsontxt) as List).cast();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +49,9 @@ class HomePageState extends State<HomePage> {
                 height: MediaQuery.of(context).size.height,
                 width: double.infinity,
                 child: ListView.builder(
-                    itemCount: channelList.length,
+                    itemCount: channels.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return buildList(context, index);
+                      return buildList(context, index, channels);
                     }),
               ),
               Container(
@@ -53,11 +69,10 @@ class HomePageState extends State<HomePage> {
                     children: <Widget>[
                       IconButton(
                         onPressed: () {
-                          getChannel();
                           //tmdb();
                         },
                         icon: const Icon(
-                          Icons.arrow_back,
+                          Icons.info,
                           color: Colors.white,
                         ),
                       ),

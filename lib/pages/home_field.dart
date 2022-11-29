@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../commons/vars.dart';
 
-Widget buildList(BuildContext context, int index) {
+Widget buildList(BuildContext context, int index, var channelList) {
+  FlutterNativeSplash.remove();
+
   return InkWell(
       onTap: () async {
-        String url = channelList[index]['nome'];
+        String url = channelList[index]['url'];
         if (url.endsWith(".m3u8") || url.endsWith("m3u")) {
-          print("Apri lista");
-          await launchUrl(Uri.parse(url));
+          await launchUrl(Uri.parse(url),
+              mode: LaunchMode.externalNonBrowserApplication);
         } else if (url == "page") {
           print("Apertura pagina");
         } else {
-          print("apri link");
-          await launchUrl(Uri.parse(url));
+          if (!await launchUrl(Uri.parse(url), mode: LaunchMode.inAppWebView)) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Non è stao possibile aprire il linl"),
+            ));
+          }
         }
       },
       borderRadius: BorderRadius.circular(25),

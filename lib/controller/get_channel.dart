@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter_tv/commons/vars.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void getChannel() async {
   var url = Uri.parse(
