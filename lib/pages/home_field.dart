@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_tv/pages/player_iptv.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../commons/vars.dart';
@@ -10,11 +11,17 @@ Widget buildList(BuildContext context, int index, var channelList) {
   return InkWell(
       onTap: () async {
         String url = channelList[index]['url'];
-        if (url.endsWith(".m3u8") || url.endsWith("m3u")) {
+        if (url.endsWith(".m3u")) {
           await launchUrl(Uri.parse(url),
               mode: LaunchMode.externalNonBrowserApplication);
         } else if (url == "page") {
           print("Apertura pagina");
+        } else if (url.endsWith(".m3u8")) {
+          //urlM3u8 = url;
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const IPTVplayer()),
+          );
         } else {
           if (!await launchUrl(Uri.parse(url), mode: LaunchMode.inAppWebView)) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
