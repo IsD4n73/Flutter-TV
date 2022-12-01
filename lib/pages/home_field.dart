@@ -17,7 +17,7 @@ Widget buildList(BuildContext context, int index, var channelList) {
         } else if (url == "page") {
           print("Apertura pagina");
         } else if (url.endsWith(".m3u8")) {
-          //urlM3u8 = url;
+          urlM3u8 = url;
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const IPTVplayer()),
