@@ -3,7 +3,7 @@ import 'package:flutter_tv/commons/vars.dart';
 import 'package:yoyo_player/yoyo_player.dart';
 
 class IPTVplayer extends StatefulWidget {
-  const IPTVplayer({super.key});
+  const IPTVplayer({Key? key}) : super(key: key);
 
   @override
   IPTVplayerState createState() => IPTVplayerState();

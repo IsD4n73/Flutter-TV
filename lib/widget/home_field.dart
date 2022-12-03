@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_tv/pages/film_view.dart';
 import 'package:flutter_tv/pages/player_iptv.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,6 +16,12 @@ Widget buildList(BuildContext context, int index, var channelList) {
           await launchUrl(Uri.parse(url),
               mode: LaunchMode.externalNonBrowserApplication);
         } else if (url == "page") {
+          if (channelList[index]['direzione'] == "film") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const FilmPopolari()),
+            );
+          }
           print("Apertura pagina");
         } else if (url.endsWith(".m3u8")) {
           urlM3u8 = url;
