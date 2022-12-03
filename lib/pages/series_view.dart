@@ -1,35 +1,27 @@
-// ignore_for_file: sized_box_for_whitespace
-
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
-import 'package:flutter_tv/controller/get_channel.dart';
-import 'package:flutter_tv/pages/film_view.dart';
+import 'package:flutter_tv/controller/tmdb.dart';
+import 'package:flutter_tv/widget/serie_field.dart';
 
-import '../widget/home_field.dart';
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class SeriePopolari extends StatefulWidget {
+  const SeriePopolari({Key? key}) : super(key: key);
 
   @override
-  HomePageState createState() => HomePageState();
+  SeriePopolariState createState() => SeriePopolariState();
 }
 
-class HomePageState extends State<HomePage> {
-  late List<Map<String, dynamic>> channels;
-  late String jsontxt;
-
+class SeriePopolariState extends State<SeriePopolari> {
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      await getChannels().then((value) => jsontxt = value);
+      await tmdbSerie();
       setState(() {
-        channels = (json.decode(jsontxt) as List).cast();
+        seriePopolari = MoviePopular.serieResult;
       });
     });
+    
+
   }
 
   @override
@@ -37,7 +29,7 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: const Color(0xff202020),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Stack(
@@ -47,13 +39,13 @@ class HomePageState extends State<HomePage> {
                 height: MediaQuery.of(context).size.height,
                 width: double.infinity,
                 child: ListView.builder(
-                    itemCount: channels.length,
+                    itemCount: seriePopolari.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return buildList(context, index, channels);
+                      return buildSerie(context, index, seriePopolari);
                     }),
               ),
               Container(
-                height: 140,
+                height: 110,
                 width: double.infinity,
                 decoration: const BoxDecoration(
                     color: primary,
@@ -66,10 +58,7 @@ class HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       IconButton(
-                        onPressed: () {
-                          //tmdb();
-                          
-                        },
+                        onPressed: () {},
                         icon: const Icon(
                           Icons.info,
                           color: Colors.white,

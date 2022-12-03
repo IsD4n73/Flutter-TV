@@ -1,47 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_tv/pages/film_view.dart';
-import 'package:flutter_tv/pages/player_iptv.dart';
-import 'package:flutter_tv/pages/series_view.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_tv/pages/film_details.dart';
 
 import '../commons/vars.dart';
 
-Widget buildList(BuildContext context, int index, var channelList) {
-  FlutterNativeSplash.remove();
-
+Widget buildSerie(BuildContext context, int index, var channelList) {
   return InkWell(
       onTap: () async {
-        String url = channelList[index]['url'];
-        if (url.endsWith(".m3u")) {
-          await launchUrl(Uri.parse(url),
-              mode: LaunchMode.externalNonBrowserApplication);
-        } else if (url == "page") {
-          if (channelList[index]['direzione'] == "film") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const FilmPopolari()),
-            );
-          }else if (channelList[index]['direzione'] == "serie") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SeriePopolari()),
-            );
-          }
-          print("Apertura pagina");
-        } else if (url.endsWith(".m3u8")) {
-          urlM3u8 = url;
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const IPTVplayer()),
-          );
-        } else {
-          if (!await launchUrl(Uri.parse(url), mode: LaunchMode.inAppWebView)) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("Non è stao possibile aprire il linl"),
-            ));
-          }
-        }
+        //       Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => SeriePage(channelList[index])),
+        // );
       },
       borderRadius: BorderRadius.circular(25),
       child: Container(
@@ -50,7 +18,7 @@ Widget buildList(BuildContext context, int index, var channelList) {
           color: Colors.white,
         ),
         width: double.infinity,
-        height: 110,
+        height: 150,
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Row(
@@ -64,7 +32,7 @@ Widget buildList(BuildContext context, int index, var channelList) {
                 borderRadius: BorderRadius.circular(50),
                 border: Border.all(width: 3, color: secondary),
                 image: DecorationImage(
-                    image: NetworkImage(channelList[index]['img']),
+                    image: NetworkImage(channelList[index].posterPath),
                     fit: BoxFit.fill),
               ),
             ),
@@ -73,7 +41,7 @@ Widget buildList(BuildContext context, int index, var channelList) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    channelList[index]['nome'],
+                    channelList[index].title,
                     style: const TextStyle(
                         color: primary,
                         fontWeight: FontWeight.bold,
@@ -92,7 +60,7 @@ Widget buildList(BuildContext context, int index, var channelList) {
                       const SizedBox(
                         width: 5,
                       ),
-                      Text(channelList[index]['categorie'],
+                      Text("${channelList[index].releaseDate}",
                           style: const TextStyle(
                               color: primary, fontSize: 13, letterSpacing: .3)),
                     ],
@@ -102,7 +70,7 @@ Widget buildList(BuildContext context, int index, var channelList) {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ));
