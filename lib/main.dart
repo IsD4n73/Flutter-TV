@@ -8,6 +8,7 @@ void main(List<String> args) {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(MaterialApp(
     home:  const HomePage(),
+    title: "Flutter TV",
     theme: ThemeData(
       primarySwatch: Colors.green,
     ),

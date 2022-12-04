@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/pages/film_details.dart';
+import 'package:flutter_tv/pages/serie_details.dart';
 
 import '../commons/vars.dart';
 
 Widget buildSerie(BuildContext context, int index, var channelList) {
   return InkWell(
       onTap: () async {
-        //       Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => SeriePage(channelList[index])),
-        // );
+              Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SeriePage(channelList[index])),
+        );
       },
       borderRadius: BorderRadius.circular(25),
       child: Container(
@@ -32,7 +33,7 @@ Widget buildSerie(BuildContext context, int index, var channelList) {
                 borderRadius: BorderRadius.circular(50),
                 border: Border.all(width: 3, color: secondary),
                 image: DecorationImage(
-                    image: NetworkImage(channelList[index].posterPath),
+                    image: NetworkImage(channelList[index].posterPath ?? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"),
                     fit: BoxFit.fill),
               ),
             ),
@@ -41,7 +42,7 @@ Widget buildSerie(BuildContext context, int index, var channelList) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    channelList[index].title,
+                    channelList[index].name,
                     style: const TextStyle(
                         color: primary,
                         fontWeight: FontWeight.bold,
@@ -60,7 +61,7 @@ Widget buildSerie(BuildContext context, int index, var channelList) {
                       const SizedBox(
                         width: 5,
                       ),
-                      Text("${channelList[index].releaseDate}",
+                      Text("${channelList[index].firstAirDate}",
                           style: const TextStyle(
                               color: primary, fontSize: 13, letterSpacing: .3)),
                     ],

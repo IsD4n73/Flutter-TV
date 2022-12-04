@@ -16,7 +16,7 @@ Widget buildList(BuildContext context, int index, var channelList) {
         if (url.endsWith(".m3u")) {
           await launchUrl(Uri.parse(url),
               mode: LaunchMode.externalNonBrowserApplication);
-        } else if (url == "page") {
+        } else if (url == "pagina") {
           if (channelList[index]['direzione'] == "film") {
             Navigator.push(
               context,
