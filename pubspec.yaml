@@ -41,7 +41,7 @@ dependencies:
   tmdb_dart: ^0.2.2
   url_launcher: ^6.1.7
   web_scraper: ^0.1.4
-  infinite_scroll: ^1.1.1
+  loader_overlay: ^2.1.0
   yoyo_player:
     git:
       url: https://github.com/ko-htut/yoyo-player.git
