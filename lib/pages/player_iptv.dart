@@ -14,40 +14,37 @@ class IPTVplayerState extends State<IPTVplayer> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Column(
-          children: [
-            YoYoPlayer(
-              aspectRatio: 16 / 9,
-              url: urlM3u8,
-              videoStyle: VideoStyle(),
-              videoLoadingStyle: VideoLoadingStyle(
-                loading: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Image(
-                        image: NetworkImage(
-                            'https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif'),
-                        fit: BoxFit.fitHeight,
-                        height: 50,
-                      ),
-                      Text("Caricamento..."),
-                    ],
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          YoYoPlayer(
+            aspectRatio: 16 / 9,
+            url: urlM3u8,
+            videoStyle: VideoStyle(),
+            videoLoadingStyle: VideoLoadingStyle(
+              loading: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  Image(
+                    image: NetworkImage(
+                        'https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif'),
+                    fit: BoxFit.fitHeight,
+                    height: 50,
                   ),
-                ),
+                  Text("Caricamento..."),
+                ],
               ),
-              onFullScreen: (t) {
-                setState(() {
-                  fullscreen = t;
-                });
-              },
             ),
-          ],
-        ),
+            onFullScreen: (t) {
+              setState(() {
+                fullscreen = t;
+              });
+            },
+          ),
+        ],
       ),
     );
   }

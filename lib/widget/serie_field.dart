@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tv/pages/film_details.dart';
-import 'package:flutter_tv/pages/serie_details.dart';
+import 'package:flutter_tv/pages/serie/serie_details.dart';
 
 import '../commons/vars.dart';
 
@@ -33,7 +32,7 @@ Widget buildSerie(BuildContext context, int index, var channelList) {
                 borderRadius: BorderRadius.circular(50),
                 border: Border.all(width: 3, color: secondary),
                 image: DecorationImage(
-                    image: NetworkImage(channelList[index].posterPath ?? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"),
+                    image: NetworkImage(channelList[index].posterPath ?? noImg),
                     fit: BoxFit.fill),
               ),
             ),

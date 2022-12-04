@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
 import 'package:flutter_tv/controller/tmdb.dart';
+import 'package:flutter_tv/pages/film/film_search.dart';
+import 'package:flutter_tv/pages/serie/serie_search.dart';
 import 'package:flutter_tv/widget/serie_field.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -20,7 +22,7 @@ class SeriePopolariState extends State<SeriePopolari> {
     Future.delayed(Duration.zero, () async {
       await tmdbSerie();
       setState(() {
-        seriePopolari = MoviePopular.serieResult;
+        seriePopolari = List.of(MoviePopular.serieResult);
       });
     });
   }
@@ -41,7 +43,7 @@ class SeriePopolariState extends State<SeriePopolari> {
                 child: Stack(
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.only(top: 145),
+                      padding: const EdgeInsets.only(top: 100),
                       height: MediaQuery.of(context).size.height,
                       width: double.infinity,
                       child: ListView.builder(
@@ -51,7 +53,7 @@ class SeriePopolariState extends State<SeriePopolari> {
                           }),
                     ),
                     Container(
-                      height: 110,
+                      height: 100,
                       width: double.infinity,
                       decoration: const BoxDecoration(
                           color: primary,
@@ -64,9 +66,15 @@ class SeriePopolariState extends State<SeriePopolari> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const CercaSerie()),
+                                );
+                              },
                               icon: const Icon(
-                                Icons.info,
+                                Icons.search,
                                 color: Colors.white,
                               ),
                             ),

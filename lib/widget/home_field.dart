@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_tv/pages/film_view.dart';
+import 'package:flutter_tv/pages/film/film_view.dart';
 import 'package:flutter_tv/pages/player_iptv.dart';
-import 'package:flutter_tv/pages/series_view.dart';
+import 'package:flutter_tv/pages/serie/series_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../commons/vars.dart';
@@ -64,7 +64,7 @@ Widget buildList(BuildContext context, int index, var channelList) {
                 borderRadius: BorderRadius.circular(50),
                 border: Border.all(width: 3, color: secondary),
                 image: DecorationImage(
-                    image: NetworkImage(channelList[index]['img']),
+                    image: NetworkImage(channelList[index]['img'] ?? noImg),
                     fit: BoxFit.fill),
               ),
             ),

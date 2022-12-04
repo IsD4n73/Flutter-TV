@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tv/pages/film_details.dart';
+import 'package:flutter_tv/pages/film/film_details.dart';
 
 import '../commons/vars.dart';
 
@@ -7,10 +7,10 @@ Widget buildMovie(BuildContext context, int index, var channelList) {
   return InkWell(
       onTap: () async {
         Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => MoviePage(channelList[index])),
-  );
-        
+          context,
+          MaterialPageRoute(
+              builder: (context) => MoviePage(channelList[index])),
+        );
       },
       borderRadius: BorderRadius.circular(25),
       child: Container(

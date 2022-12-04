@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
 import 'package:flutter_tv/controller/get_channel.dart';
-import 'package:flutter_tv/pages/film_view.dart';
 
 import '../widget/home_field.dart';
 
@@ -18,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  late List<Map<String, dynamic>> channels;
+  List<Map<String, dynamic>> channels = [];
   late String jsontxt;
 
   @override
@@ -43,7 +42,7 @@ class HomePageState extends State<HomePage> {
           child: Stack(
             children: <Widget>[
               Container(
-                padding: const EdgeInsets.only(top: 145),
+                padding: const EdgeInsets.only(top: 100),
                 height: MediaQuery.of(context).size.height,
                 width: double.infinity,
                 child: ListView.builder(
@@ -53,7 +52,7 @@ class HomePageState extends State<HomePage> {
                     }),
               ),
               Container(
-                height: 140,
+                height: 100,
                 width: double.infinity,
                 decoration: const BoxDecoration(
                     color: primary,
@@ -68,7 +67,6 @@ class HomePageState extends State<HomePage> {
                       IconButton(
                         onPressed: () {
                           //tmdb();
-                          
                         },
                         icon: const Icon(
                           Icons.info,

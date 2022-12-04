@@ -56,3 +56,21 @@ Future tmdbFilmPage(int pagina) async {
   //   print(film.posterPath);
   // }
 }
+
+Future cercaFilmVal(String film) async {
+  TmdbService service = TmdbService(apiKey);
+  await service.initConfiguration();
+
+  var pageMovieResult = await service.movie.search(film);
+
+  MoviePopular.movieResult = pageMovieResult.results;
+}
+
+Future cercaSerieVal(String serie) async {
+  TmdbService service = TmdbService(apiKey);
+  await service.initConfiguration();
+
+  var pageMovieResult = await service.tv.search(serie);
+
+  MoviePopular.serieResult = pageMovieResult.results;
+}

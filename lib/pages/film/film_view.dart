@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
 import 'package:flutter_tv/controller/tmdb.dart';
+import 'package:flutter_tv/pages/film/film_search.dart';
+import 'package:flutter_tv/widget/barra_ricerca.dart';
 import 'package:flutter_tv/widget/film_field.dart';
 import 'package:flutter_tv/widget/home_field.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -14,6 +16,7 @@ class FilmPopolari extends StatefulWidget {
 
 class FilmPopolariState extends State<FilmPopolari> {
   int pagina = 1;
+  TextEditingController ricerca = TextEditingController();
 
   @override
   void initState() {
@@ -42,7 +45,7 @@ class FilmPopolariState extends State<FilmPopolari> {
                 child: Stack(
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.only(top: 145),
+                      padding: const EdgeInsets.only(top: 100),
                       height: MediaQuery.of(context).size.height,
                       width: double.infinity,
                       child: ListView.builder(
@@ -52,7 +55,7 @@ class FilmPopolariState extends State<FilmPopolari> {
                           }),
                     ),
                     Container(
-                      height: 110,
+                      height: 100,
                       width: double.infinity,
                       decoration: const BoxDecoration(
                           color: primary,
@@ -65,15 +68,22 @@ class FilmPopolariState extends State<FilmPopolari> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const CercaFilm()),
+                                );
+                              },
                               icon: const Icon(
-                                Icons.info,
+                                Icons.search,
                                 color: Colors.white,
                               ),
                             ),
                             const Text(
                               "Flutter TV",
-                              style: TextStyle(color: Colors.white, fontSize: 24),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 24),
                             ),
                           ],
                         ),
@@ -99,7 +109,7 @@ class FilmPopolariState extends State<FilmPopolari> {
                         context.loaderOverlay.show();
                         pagina = pagina + 1;
                         print("---------- $pagina");
-    
+
                         await tmdbFilmPage(pagina);
                         setState(() {
                           filmPopolari.addAll(MoviePopular.movieResult);
