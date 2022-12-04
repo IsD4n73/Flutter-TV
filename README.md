@@ -1,16 +1,23 @@
-# flutter_tv
+# Flutter TV
+App per la visione di film, serie tv, liste iptv, sport
 
-A new Flutter project.
+## Features
 
-## Getting Started
+- Film
+- Serie TV
+- Ricerca
+- Player m3u8
+- Lettura liste m3u
+- Siti Interni
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## To-Do
+- [ ] Guarda Film 
+- [ ] UI Serie TV
+- [ ] GUARDA Serie TV 
+- [ ] Lettore Liste m3u Interno
+- [ ] Carica liste m3u Personalizzate
+- [x] Player m3u8 Interno
+- [x] Notifica Aggiornamento
+- [x] Titoli Ricerca a Scorrimento
+- [x] UI Home
+- [x] UI Dettagli Film / Serie
