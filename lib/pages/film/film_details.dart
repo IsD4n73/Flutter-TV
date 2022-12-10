@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
+import 'package:flutter_tv/widget/channel_list.dart';
 import 'package:tmdb_dart/tmdb_dart.dart';
 
 class MoviePage extends StatelessWidget {
@@ -133,10 +134,7 @@ class MovieHeader extends StatelessWidget {
         Text(
           movie.title,
           style: const TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.w500,
-            color: Colors.white
-          ),
+              fontSize: 32, fontWeight: FontWeight.w500, color: Colors.white),
         ),
         //const Rating(3),
         Padding(
@@ -146,9 +144,8 @@ class MovieHeader extends StatelessWidget {
               style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w300),
               children: <TextSpan>[
                 TextSpan(
-                  text: movie.overview,
-                  style: const TextStyle(color: Colors.white, fontSize: 14)
-                ),
+                    text: movie.overview,
+                    style: const TextStyle(color: Colors.white, fontSize: 14)),
                 // const TextSpan(
                 //   text: "More...",
                 //   style: TextStyle(color: Colors.indigoAccent),
@@ -280,7 +277,9 @@ class FeedbackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        showChannelMenu(context);
+      },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -293,8 +292,7 @@ class FeedbackButton extends StatelessWidget {
                 color: primary,
               ),
             ),
-            Text(text,
-                style: const TextStyle(fontSize: 14, color: primary))
+            Text(text, style: const TextStyle(fontSize: 14, color: primary))
           ],
         ),
       ),

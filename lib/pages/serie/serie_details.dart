@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
+import 'package:flutter_tv/widget/channel_list.dart';
 import 'package:tmdb_dart/tmdb_dart.dart';
 
 class SeriePage extends StatelessWidget {
@@ -280,7 +281,9 @@ class FeedbackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        showChannelMenu(context);
+      },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

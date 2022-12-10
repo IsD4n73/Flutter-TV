@@ -108,8 +108,6 @@ class FilmPopolariState extends State<FilmPopolari> {
                       onPressed: () async {
                         context.loaderOverlay.show();
                         pagina = pagina + 1;
-                        print("---------- $pagina");
-
                         await tmdbFilmPage(pagina);
                         setState(() {
                           filmPopolari.addAll(MoviePopular.movieResult);

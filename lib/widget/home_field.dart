@@ -38,7 +38,7 @@ Widget buildList(BuildContext context, int index, var channelList) {
         } else {
           if (!await launchUrl(Uri.parse(url), mode: LaunchMode.inAppWebView)) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("Non è stao possibile aprire il linl"),
+              content: Text("Non è stao possibile aprire il link"),
             ));
           }
         }
