@@ -3,7 +3,9 @@ import 'package:flutter_tv/commons/vars.dart';
 import 'package:yoyo_player/yoyo_player.dart';
 
 class IPTVplayer extends StatefulWidget {
-  const IPTVplayer({Key? key}) : super(key: key);
+  String urlm3u8 = "";
+
+  IPTVplayer({Key? key, required this.urlm3u8}) : super(key: key);
 
   @override
   IPTVplayerState createState() => IPTVplayerState();
@@ -21,7 +23,7 @@ class IPTVplayerState extends State<IPTVplayer> {
         children: [
           YoYoPlayer(
             aspectRatio: 16 / 9,
-            url: urlM3u8,
+            url: widget.urlm3u8,
             videoStyle: VideoStyle(),
             videoLoadingStyle: VideoLoadingStyle(
               loading: Column(

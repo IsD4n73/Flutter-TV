@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_tv/pages/channel/channel_view.dart';
 import 'package:flutter_tv/pages/film/film_view.dart';
 import 'package:flutter_tv/pages/player_iptv.dart';
 import 'package:flutter_tv/pages/serie/series_view.dart';
@@ -14,15 +15,17 @@ Widget buildList(BuildContext context, int index, var channelList) {
       onTap: () async {
         String url = channelList[index]['url'];
         if (url.endsWith(".m3u")) {
-          await launchUrl(Uri.parse(url),
-              mode: LaunchMode.externalNonBrowserApplication);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ChannelView(linktom3u: url)),
+          );
         } else if (url == "pagina") {
           if (channelList[index]['direzione'] == "film") {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const FilmPopolari()),
             );
-          }else if (channelList[index]['direzione'] == "serie") {
+          } else if (channelList[index]['direzione'] == "serie") {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const SeriePopolari()),
@@ -33,7 +36,7 @@ Widget buildList(BuildContext context, int index, var channelList) {
           urlM3u8 = url;
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const IPTVplayer()),
+            MaterialPageRoute(builder: (context) => IPTVplayer(urlm3u8: url)),
           );
         } else {
           if (!await launchUrl(Uri.parse(url), mode: LaunchMode.inAppWebView)) {

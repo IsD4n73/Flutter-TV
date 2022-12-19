@@ -6,8 +6,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
 import 'package:flutter_tv/controller/get_channel.dart';
+import 'package:flutter_tv/pages/channel/channel_view.dart';
 import 'package:flutter_tv/widget/channel_list.dart';
-
 import '../widget/home_field.dart';
 
 class HomePage extends StatefulWidget {
@@ -69,6 +69,7 @@ class HomePageState extends State<HomePage> {
                         onPressed: () {
                           //tmdb();
                           showChannelMenu(context);
+                          
                         },
                         icon: const Icon(
                           Icons.info,
