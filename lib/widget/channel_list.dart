@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
-import 'package:flutter_tv/model/channel_model.dart';
 
-showChannelMenu(BuildContext context) {
+showChannelMenu(BuildContext parentContext) {
   List<String> ls = List<String>.generate(10, (i) => 'Canale $i');
 
   showModalBottomSheet(
-      context: context,
+      context: parentContext,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (BuildContext context) {
@@ -31,32 +30,23 @@ showChannelMenu(BuildContext context) {
                       alignment: const Alignment(0, 0),
                       children: <Widget>[
                         Positioned(
-                          child: Expanded(
-                            child: ListView.builder(
-                              itemCount: ls.length,
-                              physics: const ClampingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text(
-                                  ls[index],
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                                leading: const Icon(
-                                  Icons.mail_outline,
-                                  color: Colors.white,
-                                ),
-                                onTap: () {},
-                              );
-                            },
-                          )
-
-                              // ListView(
-                              //   physics: const ClampingScrollPhysics(),
-                              //   children: <Widget>[
-
-                              //   ],
-                              // ),
+                          child: ListView.builder(
+                            itemCount: ls.length,
+                            physics: const ClampingScrollPhysics(),
+                          itemBuilder: (contextChild, index) {
+                            return ListTile(
+                              title: Text(
+                                ls[index],
+                                style: const TextStyle(color: Colors.white),
                               ),
+                              leading: const Icon(
+                                Icons.mail_outline,
+                                color: Colors.white,
+                              ),
+                              onTap: () {},
+                            );
+                          },
+                          ),
                         )
                       ],
                     ))),

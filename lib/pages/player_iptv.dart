@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tv/commons/vars.dart';
 import 'package:yoyo_player/yoyo_player.dart';
 
 class IPTVplayer extends StatefulWidget {

@@ -15,6 +15,7 @@ class ChannelView extends StatefulWidget {
 
 class _ChannelViewState extends State<ChannelView> {
   late List<ChannelModel> channelList = [];
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -23,6 +24,9 @@ class _ChannelViewState extends State<ChannelView> {
   }
 
   getChannel() async {
+    setState(() {
+      isLoading = true;
+    });
     final response = await http.get(Uri.parse(widget.linktom3u));
     final m3u = await M3uParser.parse(response.body);
 
@@ -33,6 +37,9 @@ class _ChannelViewState extends State<ChannelView> {
         });
       }
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -49,31 +56,34 @@ class _ChannelViewState extends State<ChannelView> {
         ),
         leading: const BackButton(),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            GridView.builder(
-              itemCount: channelList.length,
-              padding: const EdgeInsets.all(16),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              physics: const ClampingScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-                childAspectRatio: 0.68,
+      body: isLoading == true
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  GridView.builder(
+                    itemCount: channelList.length,
+                    padding: const EdgeInsets.all(16),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    physics: const ClampingScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
+                      childAspectRatio: 0.68,
+                    ),
+                    itemBuilder: (context, index) {
+                      return ChannelCard(channel: channelList[index]);
+                    },
+                  )
+                ],
               ),
-              itemBuilder: (context, index) {
-                return ChannelCard(channel: channelList[index]);
-              },
-            )
-          ],
-        ),
-      ),
+            ),
     );
   }
 }
