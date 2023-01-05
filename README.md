@@ -12,7 +12,7 @@ App per la visione di film, serie tv, liste iptv, sport
 
 ## To-Do
 - [ ] Guarda Film 
-- [ ] UI Serie TV
+- [x] UI Serie TV
 - [ ] Guarda Serie TV 
 - [x] Lettore Liste m3u Interno
 - [ ] Carica liste m3u Personalizzate
