@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
+import 'package:flutter_tv/pages/player_iptv.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-showChannelMenu(BuildContext parentContext) {
-  List<String> ls = List<String>.generate(10, (i) => 'Canale $i');
-
+showChannelMenu(
+    BuildContext parentContext, List<String> canali, List<String?> links) {
   showModalBottomSheet(
       context: parentContext,
       backgroundColor: Colors.transparent,
@@ -31,21 +32,33 @@ showChannelMenu(BuildContext parentContext) {
                       children: <Widget>[
                         Positioned(
                           child: ListView.builder(
-                            itemCount: ls.length,
+                            itemCount: canali.length,
                             physics: const ClampingScrollPhysics(),
-                          itemBuilder: (contextChild, index) {
-                            return ListTile(
-                              title: Text(
-                                ls[index],
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                              leading: const Icon(
-                                Icons.mail_outline,
-                                color: Colors.white,
-                              ),
-                              onTap: () {},
-                            );
-                          },
+                            itemBuilder: (contextChild, index) {
+                              return ListTile(
+                                title: Text(
+                                  canali[index],
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                leading: const Icon(
+                                  Icons.mail_outline,
+                                  color: Colors.white,
+                                ),
+                                onTap: () async {
+                                  if (links[index] != null) {
+                                    await launchUrl(Uri.parse("https:${links[index]!}"),
+                                        mode: LaunchMode.inAppWebView,
+                                        );
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text(
+                                          "Ops...Questo link non è disponibile."),
+                                    ));
+                                  }
+                                },
+                              );
+                            },
                           ),
                         )
                       ],

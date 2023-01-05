@@ -1,9 +1,13 @@
-import 'dart:ui' as ui;
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
+import 'dart:ui' as ui;
+import 'package:flutter_tv/widget/channel_list.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
-import 'package:flutter_tv/widget/channel_list.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:tmdb_dart/tmdb_dart.dart';
+import 'package:html/parser.dart';
 
 class MoviePage extends StatelessWidget {
   final MovieBase movie;
@@ -17,14 +21,18 @@ class MoviePage extends StatelessWidget {
       body: MediaQuery.removePadding(
         removeTop: true,
         context: context,
-        child: ListView(
-          children: <Widget>[
-            MovieThumbnail(movie.backdropPath),
-            MovieHeaderWithPoster(movie),
-            const HorizontalLine(),
-            MoviePeople(movie),
-            const MovieFeedback(),
-          ],
+        child: LoaderOverlay(
+          overlayColor: Colors.black,
+          overlayOpacity: 0.8,
+          child: ListView(
+            children: <Widget>[
+              MovieThumbnail(movie.backdropPath),
+              MovieHeaderWithPoster(movie),
+              const HorizontalLine(),
+              MoviePeople(movie),
+              MovieFeedback(movie),
+            ],
+          ),
         ),
       ),
     );
@@ -252,7 +260,8 @@ class MovieField extends StatelessWidget {
 }
 
 class MovieFeedback extends StatelessWidget {
-  const MovieFeedback({super.key});
+  MovieBase movie;
+  MovieFeedback(this.movie, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -260,8 +269,8 @@ class MovieFeedback extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: const <Widget>[
-          FeedbackButton(Icons.play_arrow, "Guarda"),
+        children: <Widget>[
+          FeedbackButton(Icons.play_arrow, "Guarda", movie),
         ],
       ),
     );
@@ -271,14 +280,86 @@ class MovieFeedback extends StatelessWidget {
 class FeedbackButton extends StatelessWidget {
   final IconData icon;
   final String text;
+  MovieBase movie;
 
-  const FeedbackButton(this.icon, this.text, {super.key});
+  FeedbackButton(this.icon, this.text, this.movie, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        showChannelMenu(context);
+      onTap: () async {
+        context.loaderOverlay.show();
+        String query = movie.title.replaceAll(" ", "%20");
+        query = query.replaceAll("'", "%27");
+
+        final filmResponse = await http.get(
+            Uri.parse(
+                'https://altadefinizione.navy/index.php?do=search&subaction=search&story=$query&sortby=news_read'),
+            headers: {"user-agent": userAgent});
+
+        if (filmResponse.statusCode == 200) {
+          var document = parse(filmResponse.body);
+          var link = document.getElementsByClassName("titleFilm").first;
+
+          String? filmPageUrl = link.children.first.attributes["href"];
+          if (filmPageUrl != null) {
+            final channelResponse = await http.get(Uri.parse(filmPageUrl),
+                headers: {"user-agent": userAgent});
+            if (channelResponse.statusCode == 200) {
+              document = parse(channelResponse.body);
+              var link = document
+                  .getElementsByClassName(
+                      "player-container-wrap guardahd-player")
+                  .first
+                  .children
+                  .first
+                  .attributes["src"];
+
+              if (link != null) {
+                final videoResponse = await http
+                    .get(Uri.parse(link), headers: {"user-agent": userAgent});
+                if (videoResponse.statusCode == 200) {
+                  document = parse(videoResponse.body);
+                  var links = document
+                      .getElementsByClassName("_player-mirrors")
+                      .first
+                      .children;
+                  List<String> canaliNomi = [];
+                  List<String?> canaliLink = [];
+                  for (var canale in links) {
+                    canaliNomi.add(canale.text);
+                    canaliLink.add(canale.attributes["data-link"]);
+                  }
+                  context.loaderOverlay.hide();
+                  showChannelMenu(context, canaliNomi, canaliLink);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        "C'è stato un errore nel recuperare i link - Errore: ${videoResponse.statusCode}"),
+                  ));
+                }
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Non sono stati trovati link"),
+                ));
+              }
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                    "C'è stato un errore nel recuperare il film - Errore: ${channelResponse.statusCode}"),
+              ));
+            }
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Non è stato trovato il link del film."),
+            ));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+                "C'è stato un errore nel recuperare il film - Errore: ${filmResponse.statusCode}"),
+          ));
+        }
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

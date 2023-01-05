@@ -22,3 +22,6 @@ String apiKey = "7e438eba5e1c995839ac0bacf9f33f23";
 
 const appcastURL =
     'https://raw.githubusercontent.com/IsD4n73/IsD4n73/file/Upgrade.xml';
+
+String userAgent =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36";

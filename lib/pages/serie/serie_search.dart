@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
 import 'package:flutter_tv/controller/tmdb.dart';
-import 'package:flutter_tv/pages/film/film_details.dart';
 import 'package:flutter_tv/pages/serie/serie_details.dart';
 import 'package:text_scroll/text_scroll.dart';
 
