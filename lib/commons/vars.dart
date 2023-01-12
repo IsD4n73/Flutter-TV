@@ -19,6 +19,7 @@ var filmCercati = [];
 var serieCercati = [];
 
 String apiKey = "7e438eba5e1c995839ac0bacf9f33f23";
+String urlTv = "https://api.themoviedb.org/3/tv/";
 
 const appcastURL =
     'https://raw.githubusercontent.com/IsD4n73/IsD4n73/file/Upgrade.xml';

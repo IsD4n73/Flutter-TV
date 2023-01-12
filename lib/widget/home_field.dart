@@ -31,7 +31,6 @@ Widget buildList(BuildContext context, int index, var channelList) {
               MaterialPageRoute(builder: (context) => const SeriePopolari()),
             );
           }
-          print("Apertura pagina");
         } else if (url.endsWith(".m3u8")) {
           urlM3u8 = url;
           Navigator.push(

@@ -106,7 +106,6 @@ class SeriePopolariState extends State<SeriePopolari> {
                         context.loaderOverlay.show();
 
                         pagina = pagina + 1;
-                        print("---------- $pagina");
 
                         await tmdbSeriePage(pagina);
                         setState(() {

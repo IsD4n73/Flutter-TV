@@ -1,14 +1,40 @@
 import 'dart:ui' as ui;
 
+import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
+import 'package:flutter_tv/controller/get_episode.dart';
+import 'package:flutter_tv/model/episodio_model.dart';
+import 'package:flutter_tv/model/season_model.dart';
 import 'package:flutter_tv/widget/channel_list.dart';
+import 'package:text_scroll/text_scroll.dart';
 import 'package:tmdb_dart/tmdb_dart.dart';
 
-class SeriePage extends StatelessWidget {
+class SeriePage extends StatefulWidget {
   final TvBase movie;
-
   const SeriePage(this.movie, {super.key});
+
+  @override
+  State<SeriePage> createState() => _SeriePageState();
+}
+
+class _SeriePageState extends State<SeriePage> {
+  late SeasonModel model;
+  late List<String> stagioni = [];
+  late List<EpisodioModel> episodi = [];
+  String? selectedSeason;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchEpisode(widget.movie.id).then((value) {
+      setState(() {
+        model = value;
+        stagioni = List<String>.generate(
+            value.number_of_seasons, (index) => "Stagione ${index + 1}");
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +45,34 @@ class SeriePage extends StatelessWidget {
         context: context,
         child: ListView(
           children: <Widget>[
-            MovieThumbnail(movie.backdropPath),
-            MovieHeaderWithPoster(movie),
+            MovieThumbnail(widget.movie.backdropPath),
+            MovieHeaderWithPoster(widget.movie),
             const HorizontalLine(),
-            MoviePeople(movie),
-            const MovieFeedback(),
+            MoviePeople(widget.movie),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: CustomDropdownButton2(
+                hint: 'Seleziona Stagione',
+                buttonDecoration: BoxDecoration(
+                    border: Border.all(width: 2, color: primary),
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white),
+                dropdownItems: stagioni,
+                value: selectedSeason,
+                onChanged: (value) async {
+                  setState(() {
+                    selectedSeason = value;
+                  });
+        
+                  fetchListEpisode(widget.movie.id, value).then((value) {
+                    setState(() {
+                      episodi = value;
+                    });
+                  });
+                },
+              ),
+            ),
+            SerieEpisodes(widget.movie.id, episodi),
           ],
         ),
       ),
@@ -46,7 +95,7 @@ class MovieThumbnail extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(bottom: 1),
-              child: Image.network(thumbnail!),
+              child: Image.network(thumbnail ?? noImg),
             ),
             // const Icon(
             //   Icons.play_circle_outline,
@@ -72,7 +121,6 @@ class MovieThumbnail extends StatelessWidget {
 
 class MovieHeaderWithPoster extends StatelessWidget {
   final TvBase movie;
-
   const MovieHeaderWithPoster(this.movie, {super.key});
 
   @override
@@ -81,7 +129,7 @@ class MovieHeaderWithPoster extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: <Widget>[
-          MoviePoster(movie.posterPath!),
+          MoviePoster(movie.posterPath ?? noImg),
           const SizedBox(width: 16),
           Expanded(
             child: MovieHeader(movie),
@@ -134,10 +182,7 @@ class MovieHeader extends StatelessWidget {
         Text(
           movie.name,
           style: const TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.w500,
-            color: Colors.white
-          ),
+              fontSize: 32, fontWeight: FontWeight.w500, color: Colors.white),
         ),
         //const Rating(3),
         Padding(
@@ -147,12 +192,8 @@ class MovieHeader extends StatelessWidget {
               style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w300),
               children: <TextSpan>[
                 TextSpan(
-                  text: movie.overview,
-                  style: const TextStyle(color: Colors.white, fontSize: 14)
-                ),
-                // const TextSpan(
-                //   text: "More...",
-                //   style: TextStyle(color: Colors.indigoAccent),
+                    text: movie.overview,
+                    style: const TextStyle(color: Colors.white, fontSize: 14)),
                 // ),
               ],
             ),
@@ -296,11 +337,91 @@ class FeedbackButton extends StatelessWidget {
                 color: primary,
               ),
             ),
-            Text(text,
-                style: const TextStyle(fontSize: 14, color: primary))
+            Text(text, style: const TextStyle(fontSize: 14, color: primary))
           ],
         ),
       ),
     );
   }
 }
+
+// ignore: must_be_immutable
+class SerieEpisodes extends StatefulWidget {
+  int id;
+  List<EpisodioModel> stagioneSelezionata;
+  SerieEpisodes(this.id, this.stagioneSelezionata, {super.key});
+
+  @override
+  State<SerieEpisodes> createState() => _SerieEpisodesState();
+}
+
+class _SerieEpisodesState extends State<SerieEpisodes> {
+  Widget build(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+        padding: const EdgeInsets.all(0),
+        width: MediaQuery.of(context).size.width,
+        height: 180,
+        decoration: const BoxDecoration(
+          color: Color(0x00ffffff),
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.zero,
+        ),
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.all(5),
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
+          itemCount: widget.stagioneSelezionata.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Image(
+                    image:
+                        NetworkImage(widget.stagioneSelezionata[index].poster),
+                    height: 140,
+                    width: 140,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(
+                    width: 140,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                      child: TextScroll(
+                        "Episodio ${widget.stagioneSelezionata[index].episode_number} - ${widget.stagioneSelezionata[index].name}           ",
+                        textAlign: TextAlign.start,
+                        velocity: const Velocity(pixelsPerSecond: Offset(20, 0)),
+                        //mode: TextScrollMode.endless,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 11,
+                          color: Color(0xffffffff),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ));
+  }
+}
+
+
+/*
+ListView(
+        
+        children: [
+          
+        ],
+      ),
+
+
+*/
