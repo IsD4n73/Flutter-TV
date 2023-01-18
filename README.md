@@ -14,11 +14,11 @@ App per la visione di film, serie tv, liste iptv, sport
 - [ ] Guarda Film 
 - [ ] Carica Liste M3U Personalizzate 
 - [ ] Guarda Serie TV
-- [x] Selezione Stagione Serie TV
-- [x] UI Serie TV 
+- [x] Selezione Stagione Serie TV 
 - [x] Lettore Liste m3u Interno
 - [x] Player M3U8 Interno 
 - [x] Notifica Aggiornamento
 - [x] Ricerca
 - [x] UI Home
-- [x] UI Dettagli Film / Serie
+- [x] UI Dettagli Film 
+- [x] UI Dettagli Serie
