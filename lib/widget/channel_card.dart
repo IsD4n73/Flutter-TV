@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/model/channel_model.dart';
-import 'package:flutter_tv/pages/player_iptv.dart';
+import 'package:flutter_tv/pages/video_player.dart';
 
 class ChannelCard extends StatefulWidget {
   ChannelModel channel;
@@ -21,9 +21,10 @@ class _ChannelCardState extends State<ChannelCard> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => IPTVplayer(
-                    urlm3u8: widget.channel.link,
-                  )),
+            builder: (context) => VideoPlayerWidget(
+              link: widget.channel.link,
+            ),
+          ),
         );
       },
       child: Card(

@@ -15,11 +15,6 @@ class CercaFilmState extends State<CercaFilm> {
   TextEditingController ricerca = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
@@ -34,10 +29,12 @@ class CercaFilmState extends State<CercaFilm> {
               cursorColor: primary,
               style: dropdownMenuItem,
               onChanged: (value) async {
-                await cercaFilmVal(value);
-                setState(() {
-                  filmCercati = List.of(MoviePopular.movieResult);
-                });
+                if (value.isNotEmpty) {
+                  await cercaFilmVal(value);
+                  setState(() {
+                    filmCercati = List.of(MoviePopular.movieResult);
+                  });
+                }
               },
               decoration: const InputDecoration(
                   hintText: "Cerca Film",
@@ -52,8 +49,7 @@ class CercaFilmState extends State<CercaFilm> {
                       EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height - 110,
+          Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,

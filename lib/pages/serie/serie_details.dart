@@ -1,12 +1,10 @@
 import 'dart:ui' as ui;
-
-import 'package:dropdown_button2/custom_dropdown_button2.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
 import 'package:flutter_tv/controller/get_episode.dart';
 import 'package:flutter_tv/model/episodio_model.dart';
 import 'package:flutter_tv/model/season_model.dart';
-import 'package:flutter_tv/widget/channel_list.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:tmdb_dart/tmdb_dart.dart';
 
@@ -51,25 +49,36 @@ class _SeriePageState extends State<SeriePage> {
             MoviePeople(widget.movie),
             Padding(
               padding: const EdgeInsets.all(8),
-              child: CustomDropdownButton2(
-                hint: 'Seleziona Stagione',
-                buttonDecoration: BoxDecoration(
-                    border: Border.all(width: 2, color: primary),
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.white),
-                dropdownItems: stagioni,
-                value: selectedSeason,
-                onChanged: (value) async {
-                  setState(() {
-                    selectedSeason = value;
-                  });
-        
-                  fetchListEpisode(widget.movie.id, value).then((value) {
+              child: Flexible(
+                child: DropdownButton2(
+                  hint: const Text(
+                    'Seleziona Stagione',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  items: stagioni
+                      .map((item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                  value: selectedSeason,
+                  onChanged: (value) async {
                     setState(() {
-                      episodi = value;
+                      selectedSeason = value;
                     });
-                  });
-                },
+
+                    fetchListEpisode(widget.movie.id, value).then((value) {
+                      setState(() {
+                        episodi = value;
+                      });
+                    });
+                  },
+                ),
               ),
             ),
             SerieEpisodes(widget.movie.id, episodi),
@@ -395,7 +404,8 @@ class _SerieEpisodesState extends State<SerieEpisodes> {
                       child: TextScroll(
                         "Episodio ${widget.stagioneSelezionata[index].episode_number} - ${widget.stagioneSelezionata[index].name}           ",
                         textAlign: TextAlign.start,
-                        velocity: const Velocity(pixelsPerSecond: Offset(20, 0)),
+                        velocity:
+                            const Velocity(pixelsPerSecond: Offset(20, 0)),
                         //mode: TextScrollMode.endless,
                         style: const TextStyle(
                           fontWeight: FontWeight.w400,
@@ -414,12 +424,11 @@ class _SerieEpisodesState extends State<SerieEpisodes> {
   }
 }
 
-
 /*
 ListView(
-        
+
         children: [
-          
+
         ],
       ),
 

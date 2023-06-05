@@ -3,13 +3,21 @@ import 'package:flutter_tv/pages/film/film_details.dart';
 
 import '../commons/vars.dart';
 
-Widget buildMovie(BuildContext context, int index, var channelList) {
-  return InkWell(
+class BuildMovie extends StatelessWidget {
+  final int index;
+  final List<dynamic> channelList;
+  const BuildMovie({Key? key, required this.index, required this.channelList})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
       onTap: () async {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => MoviePage(channelList[index])),
+            builder: (context) => MoviePage(channelList[index]),
+          ),
         );
       },
       borderRadius: BorderRadius.circular(25),
@@ -61,18 +69,19 @@ Widget buildMovie(BuildContext context, int index, var channelList) {
                       const SizedBox(
                         width: 5,
                       ),
-                      Text("${channelList[index].releaseDate}",
-                          style: const TextStyle(
-                              color: primary, fontSize: 13, letterSpacing: .3)),
+                      Text(
+                        "${channelList[index].releaseDate}",
+                        style: const TextStyle(
+                            color: primary, fontSize: 13, letterSpacing: 3),
+                      ),
                     ],
-                  ),
-                  const SizedBox(
-                    height: 6,
                   ),
                 ],
               ),
             ),
           ],
         ),
-      ));
+      ),
+    );
+  }
 }

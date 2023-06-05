@@ -34,26 +34,28 @@ class CercaSerieState extends State<CercaSerie> {
               cursorColor: primary,
               style: dropdownMenuItem,
               onChanged: (value) async {
-                await cercaSerieVal(value);
-                setState(() {
-                  serieCercati = List.of(MoviePopular.serieResult);
-                });
+                if (value.isNotEmpty) {
+                  await cercaSerieVal(value);
+                  setState(() {
+                    serieCercati = List.of(MoviePopular.serieResult);
+                  });
+                }
               },
               decoration: const InputDecoration(
-                  hintText: "Cerca Serie TV",
-                  hintStyle: TextStyle(color: Colors.black38, fontSize: 16),
-                  prefixIcon: Material(
-                    elevation: 0.0,
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    child: Icon(Icons.search),
-                  ),
-                  border: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+                hintText: "Cerca Serie TV",
+                hintStyle: TextStyle(color: Colors.black38, fontSize: 16),
+                prefixIcon: Material(
+                  elevation: 0.0,
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  child: Icon(Icons.search),
+                ),
+                border: InputBorder.none,
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 25, vertical: 13),
+              ),
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height - 110,
+          Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -74,40 +76,41 @@ class CercaSerieState extends State<CercaSerie> {
                       );
                     },
                     child: Container(
-                        decoration: BoxDecoration(
-                          color: primary,
-                          borderRadius: BorderRadius.circular(10.0),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                serieCercati[index].posterPath ?? noImg),
-                            fit: BoxFit.cover,
-                          ),
+                      decoration: BoxDecoration(
+                        color: primary,
+                        borderRadius: BorderRadius.circular(10.0),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              serieCercati[index].posterPath ?? noImg),
+                          fit: BoxFit.cover,
                         ),
-                        child: Container(
-                          color: Colors.black.withOpacity(0.5),
-                          width: double.infinity,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: TextScroll(
-                                    "${serieCercati[index].name}      ",
-                                    textAlign: TextAlign.center,
-                                    velocity: const Velocity(
-                                        pixelsPerSecond: Offset(50, 0)),
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                      ),
+                      child: Container(
+                        color: Colors.black.withOpacity(0.5),
+                        width: double.infinity,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: TextScroll(
+                                  "${serieCercati[index].name}      ",
+                                  textAlign: TextAlign.center,
+                                  velocity: const Velocity(
+                                      pixelsPerSecond: Offset(50, 0)),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
-                            ],
-                          ),
-                        )),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 );
               },

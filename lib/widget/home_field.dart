@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_tv/pages/channel/channel_view.dart';
 import 'package:flutter_tv/pages/film/film_view.dart';
-import 'package:flutter_tv/pages/player_iptv.dart';
 import 'package:flutter_tv/pages/serie/series_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../commons/vars.dart';
 
-Widget buildList(BuildContext context, int index, var channelList) {
-  FlutterNativeSplash.remove();
+class BuildList extends StatelessWidget {
+  final int index;
+  final List<Map<String, dynamic>> channelList;
 
-  return InkWell(
+  const BuildList({Key? key, required this.index, required this.channelList})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
       onTap: () async {
         String url = channelList[index]['url'];
-        if (url.endsWith(".m3u")) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ChannelView(linktom3u: url)),
-          );
-        } else if (url == "pagina") {
+        if (url == "pagina") {
           if (channelList[index]['direzione'] == "film") {
             Navigator.push(
               context,
@@ -31,12 +29,6 @@ Widget buildList(BuildContext context, int index, var channelList) {
               MaterialPageRoute(builder: (context) => const SeriePopolari()),
             );
           }
-        } else if (url.endsWith(".m3u8")) {
-          urlM3u8 = url;
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => IPTVplayer(urlm3u8: url)),
-          );
         } else {
           if (!await launchUrl(Uri.parse(url), mode: LaunchMode.inAppWebView)) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -107,5 +99,7 @@ Widget buildList(BuildContext context, int index, var channelList) {
             )
           ],
         ),
-      ));
+      ),
+    );
+  }
 }

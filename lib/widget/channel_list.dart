@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
-import 'package:flutter_tv/pages/player_iptv.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 showChannelMenu(
@@ -46,9 +45,10 @@ showChannelMenu(
                                 ),
                                 onTap: () async {
                                   if (links[index] != null) {
-                                    await launchUrl(Uri.parse("https:${links[index]!}"),
-                                        mode: LaunchMode.inAppWebView,
-                                        );
+                                    await launchUrl(
+                                      Uri.parse("https:${links[index]!}"),
+                                      mode: LaunchMode.inAppWebView,
+                                    );
                                   } else {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(const SnackBar(
@@ -67,8 +67,6 @@ showChannelMenu(
         );
       });
 }
-
-
 
 /*
 
