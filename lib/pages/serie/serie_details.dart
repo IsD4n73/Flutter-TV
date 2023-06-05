@@ -49,36 +49,36 @@ class _SeriePageState extends State<SeriePage> {
             MoviePeople(widget.movie),
             Padding(
               padding: const EdgeInsets.all(8),
-              child: Flexible(
-                child: DropdownButton2(
-                  hint: const Text(
-                    'Seleziona Stagione',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  items: stagioni
-                      .map((item) => DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                  value: selectedSeason,
-                  onChanged: (value) async {
-                    setState(() {
-                      selectedSeason = value;
-                    });
-
-                    fetchListEpisode(widget.movie.id, value).then((value) {
-                      setState(() {
-                        episodi = value;
-                      });
-                    });
-                  },
+              child: DropdownButton2(
+                hint: const Text(
+                  'Seleziona Stagione',
+                  style: TextStyle(color: Colors.white),
                 ),
+                style: const TextStyle(color: Colors.white),
+                items: stagioni
+                    .map(
+                      (item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black),
+                        ),
+                      ),
+                    )
+                    .toList(),
+                value: selectedSeason,
+                onChanged: (value) async {
+                  setState(() {
+                    selectedSeason = value;
+                  });
+
+                  fetchListEpisode(widget.movie.id, value).then((value) {
+                    setState(() {
+                      episodi = value;
+                    });
+                  });
+                },
               ),
             ),
             SerieEpisodes(widget.movie.id, episodi),

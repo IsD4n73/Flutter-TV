@@ -23,8 +23,14 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: VideoPlayer(controller),
+    return Scaffold(
+      body: VideoPlayer(controller),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
   }
 }

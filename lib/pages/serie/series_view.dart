@@ -4,6 +4,7 @@ import 'package:flutter_tv/controller/tmdb.dart';
 import 'package:flutter_tv/pages/serie/serie_search.dart';
 import 'package:flutter_tv/widget/serie_field.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:tmdb_dart/tmdb_dart.dart';
 
 class SeriePopolari extends StatefulWidget {
   const SeriePopolari({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class SeriePopolari extends StatefulWidget {
 
 class SeriePopolariState extends State<SeriePopolari> {
   int pagina = 1;
+  List<TvBase> seriePopolari = [];
 
   @override
   void initState() {

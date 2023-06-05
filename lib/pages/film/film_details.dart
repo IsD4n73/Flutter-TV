@@ -293,9 +293,10 @@ class FeedbackButton extends StatelessWidget {
         query = query.replaceAll("'", "%27");
 
         final filmResponse = await http.get(
-            Uri.parse(
-                'https://altadefinizione.navy/index.php?do=search&subaction=search&story=$query&sortby=news_read'),
-            headers: {"user-agent": userAgent});
+          Uri.parse(
+              'https://altadefinizione.haus/index.php?do=search&subaction=search&story=$query&sortby=news_read'),
+          headers: {"user-agent": userAgent},
+        );
 
         if (filmResponse.statusCode == 200) {
           var document = parse(filmResponse.body);
@@ -330,7 +331,7 @@ class FeedbackButton extends StatelessWidget {
                     canaliNomi.add(canale.text);
                     canaliLink.add(canale.attributes["data-link"]);
                   }
-                  context.loaderOverlay.hide();
+
                   showChannelMenu(context, canaliNomi, canaliLink);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -360,6 +361,7 @@ class FeedbackButton extends StatelessWidget {
                 "C'è stato un errore nel recuperare il film - Errore: ${filmResponse.statusCode}"),
           ));
         }
+        context.loaderOverlay.hide();
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
