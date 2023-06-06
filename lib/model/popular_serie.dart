@@ -12,7 +12,7 @@ class PopularSerieModel {
     if (json['results'] != null) {
       results = <Results>[];
       json['results'].forEach((v) {
-        results!.add(new Results.fromJson(v));
+        results!.add(Results.fromJson(v));
       });
     }
     totalPages = json['total_pages'];
@@ -20,13 +20,13 @@ class PopularSerieModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['page'] = this.page;
-    if (this.results != null) {
-      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = {};
+    data['page'] = page;
+    if (results != null) {
+      data['results'] = results!.map((v) => v.toJson()).toList();
     }
-    data['total_pages'] = this.totalPages;
-    data['total_results'] = this.totalResults;
+    data['total_pages'] = totalPages;
+    data['total_results'] = totalResults;
     return data;
   }
 }
@@ -78,20 +78,20 @@ class Results {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['backdrop_path'] = this.backdropPath;
-    data['first_air_date'] = this.firstAirDate;
-    data['genre_ids'] = this.genreIds;
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['origin_country'] = this.originCountry;
-    data['original_language'] = this.originalLanguage;
-    data['original_name'] = this.originalName;
-    data['overview'] = this.overview;
-    data['popularity'] = this.popularity;
-    data['poster_path'] = this.posterPath;
-    data['vote_average'] = this.voteAverage;
-    data['vote_count'] = this.voteCount;
+    final Map<String, dynamic> data = {};
+    data['backdrop_path'] = backdropPath;
+    data['first_air_date'] = firstAirDate;
+    data['genre_ids'] = genreIds;
+    data['id'] = id;
+    data['name'] = name;
+    data['origin_country'] = originCountry;
+    data['original_language'] = originalLanguage;
+    data['original_name'] = originalName;
+    data['overview'] = overview;
+    data['popularity'] = popularity;
+    data['poster_path'] = posterPath;
+    data['vote_average'] = voteAverage;
+    data['vote_count'] = voteCount;
     return data;
   }
 }

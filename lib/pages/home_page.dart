@@ -5,6 +5,7 @@ import 'package:flutter_tv/pages/film/film_search.dart';
 import 'package:flutter_tv/pages/film/film_view.dart';
 import 'package:flutter_tv/pages/serie/serie_search.dart';
 import 'package:flutter_tv/pages/serie/series_view.dart';
+import 'package:flutter_tv/pages/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -64,7 +65,14 @@ class HomePageState extends State<HomePage> {
         onTap: (index) => setState(() => _bottomNavIndex = index),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SettingsPage(),
+            ),
+          );
+        },
         backgroundColor: primary,
         child: const Icon(Icons.settings),
       ),

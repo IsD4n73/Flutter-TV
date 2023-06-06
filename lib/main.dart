@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
@@ -6,7 +8,8 @@ import 'package:flutter_tv/pages/home_page.dart';
 import 'package:upgrader/upgrader.dart';
 
 void main(List<String> args) {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   HttpOverrides.global = MyHttpOverrides();
 
   runApp(const MainApp());
@@ -18,7 +21,10 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cfg = AppcastConfiguration(url: appcastURL, supportedOS: ['android']);
+    FlutterNativeSplash.remove();
     return MaterialApp(
+      builder: BotToastInit(),
+      navigatorObservers: [BotToastNavigatorObserver()],
       home: UpgradeAlert(
         upgrader: Upgrader(
           countryCode: "it",
@@ -42,7 +48,6 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (cert, host, port) => true;
   }
 }

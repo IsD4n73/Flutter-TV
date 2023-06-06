@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
-import 'package:flutter_tv/pages/video_player.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_tv/controller/web_loader.dart';
 
 showChannelMenu(
     BuildContext parentContext, List<String> canali, List<String?> links) {
@@ -46,6 +45,8 @@ showChannelMenu(
                                 ),
                                 onTap: () async {
                                   if (links[index] != null) {
+                                    List<String> names = await getEntriesFrom(
+                                        "https:${links[index]}");
                                     /*Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => VideoPlayerWidget(
@@ -54,11 +55,12 @@ showChannelMenu(
                                     );*/
                                     //todo: link to player
                                   } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                      content: Text(
-                                          "Questo link non è disponibile."),
-                                    ));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            "Questo link non è disponibile."),
+                                      ),
+                                    );
                                   }
                                 },
                               );

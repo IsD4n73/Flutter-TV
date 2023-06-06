@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
 import 'package:flutter_tv/controller/tmdb.dart';
-import 'package:flutter_tv/pages/serie/serie_search.dart';
 import 'package:flutter_tv/widget/serie_field.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:tmdb_dart/tmdb_dart.dart';

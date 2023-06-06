@@ -310,11 +310,11 @@ class MovieFeedback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: const <Widget>[
+        children: <Widget>[
           FeedbackButton(Icons.play_arrow, "Guarda"),
         ],
       ),
@@ -365,6 +365,7 @@ class SerieEpisodes extends StatefulWidget {
 }
 
 class _SerieEpisodesState extends State<SerieEpisodes> {
+  @override
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),

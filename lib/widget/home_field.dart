@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/pages/film/film_view.dart';
 import 'package:flutter_tv/pages/serie/series_view.dart';
@@ -31,9 +32,10 @@ class BuildList extends StatelessWidget {
           }
         } else {
           if (!await launchUrl(Uri.parse(url), mode: LaunchMode.inAppWebView)) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("Non è stao possibile aprire il link"),
-            ));
+            BotToast.showSimpleNotification(
+              title: "Non è stao possibile aprire il link",
+              backgroundColor: Colors.white,
+            );
           }
         }
       },
