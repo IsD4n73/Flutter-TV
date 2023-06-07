@@ -36,7 +36,7 @@ showChannelMenu(
                             itemBuilder: (contextChild, index) {
                               return ListTile(
                                 title: Text(
-                                  canali[index],
+                                  canali[index].trim(),
                                   style: const TextStyle(color: Colors.white),
                                 ),
                                 leading: const Icon(
@@ -45,8 +45,8 @@ showChannelMenu(
                                 ),
                                 onTap: () async {
                                   if (links[index] != null) {
-                                    List<String> names = await getEntriesFrom(
-                                        "https:${links[index]}");
+                                    List<String> names =
+                                        await getEntriesFrom("${links[index]}");
                                     /*Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => VideoPlayerWidget(

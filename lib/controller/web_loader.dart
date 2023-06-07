@@ -1,49 +1,36 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter/material.dart';
 
 Future<List<String>> getEntriesFrom(String url) async {
   List<String> entries = [];
-  String javaScript = '''
-  function getResource(){
-    var resource = window.performance.getEntries();
-    var names = [];
+
+  print("URL: $url");
+
+  String javaScript = '''var resource = window.performance.getEntries();
   
     resource.forEach(function(x) {
-        names.push(x.name);
+        console.log(x.name);
     });
-  
-    return names;
-  }
-  getResource();
   ''';
 
-  InAppWebViewController? controller;
-
-  InAppWebView(
-    initialUrlRequest: URLRequest(
-      url: Uri.parse(url),
-    ),
-    onWebViewCreated: (cont) {
-      controller = cont;
+  HeadlessInAppWebView headlessWebView = HeadlessInAppWebView(
+    initialUrlRequest: URLRequest(url: Uri.parse(url)),
+    onProgressChanged: (controller, progress) =>
+        BotToast.showText(text: "$progress%", onlyOne: false),
+    onConsoleMessage: (controller, consoleMessage) {
+      print(consoleMessage.message);
     },
-    onProgressChanged: (_, progress) => print("PROGRESS: $progress"),
     onLoadStop: (controller, url) async {
-      var names = await controller.evaluateJavascript(source: javaScript);
-
-      print(names);
+      print("Caricato $url");
+      controller.evaluateJavascript(source: javaScript);
     },
   );
 
-  await controller?.loadUrl(
-    urlRequest: URLRequest(
-      url: Uri.parse(url),
-    ),
-  );
+  await headlessWebView.run();
 
-  var x = await controller?.evaluateJavascript(
-      source: "window.performance.getEntries();");
+  await headlessWebView.webViewController
+      .evaluateJavascript(source: javaScript);
 
-  print(x);
-
+  headlessWebView.dispose();
   return entries;
 }

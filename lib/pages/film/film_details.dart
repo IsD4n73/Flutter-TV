@@ -8,6 +8,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:tmdb_dart/tmdb_dart.dart';
 
 import '../../controller/provider/altadefinizione.dart';
+import '../../controller/provider/cb01_film.dart';
 
 class MoviePage extends StatelessWidget {
   final MovieBase movie;

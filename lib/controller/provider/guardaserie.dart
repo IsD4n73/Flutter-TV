@@ -59,12 +59,20 @@ Future<void> guardaserieProvider(
             .children;
 
         List<String> canaliNomi = [];
-        List<String> canaliLink = [];
+        List<String?> canaliLink = [];
 
         canaliNomi = links.map((e) => e.text).toList();
-        canaliLink = links
-            .map((e) => e.attributes["data-link"] ?? urlGuardaserieShort)
-            .toList();
+        canaliLink = links.map((e) {
+          if (e.attributes["data-link"] == null) {
+            return urlGuardaserie;
+          } else {
+            if (e.attributes["data-link"]!.contains("http")) {
+              return e.attributes["data-link"];
+            } else {
+              return "$urlGuardaserieShort${e.attributes["data-link"]}";
+            }
+          }
+        }).toList();
 
         showChannelMenu(context, canaliNomi, canaliLink);
       } catch (_) {
