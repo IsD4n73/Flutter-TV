@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
+import 'package:flutter_tv/controller/provider/guardaserie.dart';
 import 'package:flutter_tv/pages/film/film_search.dart';
 import 'package:flutter_tv/pages/film/film_view.dart';
 import 'package:flutter_tv/pages/serie/serie_search.dart';

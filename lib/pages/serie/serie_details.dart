@@ -3,8 +3,10 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tv/commons/vars.dart';
 import 'package:flutter_tv/controller/get_episode.dart';
+import 'package:flutter_tv/controller/provider/guardaserie.dart';
 import 'package:flutter_tv/model/episodio_model.dart';
 import 'package:flutter_tv/model/season_model.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:tmdb_dart/tmdb_dart.dart';
 
@@ -38,51 +40,63 @@ class _SeriePageState extends State<SeriePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      body: MediaQuery.removePadding(
-        removeTop: true,
-        context: context,
-        child: ListView(
-          children: <Widget>[
-            MovieThumbnail(widget.movie.backdropPath),
-            MovieHeaderWithPoster(widget.movie),
-            const HorizontalLine(),
-            MoviePeople(widget.movie),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: DropdownButton2(
-                hint: const Text(
-                  'Seleziona Stagione',
-                  style: TextStyle(color: Colors.white),
-                ),
-                style: const TextStyle(color: Colors.white),
-                items: stagioni
-                    .map(
-                      (item) => DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                              fontSize: 14, color: Colors.black),
+      body: LoaderOverlay(
+        overlayColor: Colors.black,
+        overlayOpacity: 0.8,
+        child: MediaQuery.removePadding(
+          removeTop: true,
+          context: context,
+          child: ListView(
+            children: <Widget>[
+              MovieThumbnail(widget.movie.backdropPath),
+              MovieHeaderWithPoster(widget.movie),
+              const HorizontalLine(),
+              MoviePeople(widget.movie),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: DropdownButton2(
+                  hint: const Text(
+                    'Seleziona Stagione',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  dropdownStyleData: const DropdownStyleData(
+                    decoration: BoxDecoration(
+                      color: bgColor,
+                    ),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                  items: stagioni
+                      .map(
+                        (item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
-                value: selectedSeason,
-                onChanged: (value) async {
-                  setState(() {
-                    selectedSeason = value;
-                  });
-
-                  fetchListEpisode(widget.movie.id, value).then((value) {
+                      )
+                      .toList(),
+                  value: selectedSeason,
+                  onChanged: (value) async {
                     setState(() {
-                      episodi = value;
+                      selectedSeason = value;
                     });
-                  });
-                },
+
+                    fetchListEpisode(widget.movie.id, value).then((value) {
+                      setState(() {
+                        episodi = value;
+                      });
+                    });
+                  },
+                ),
               ),
-            ),
-            SerieEpisodes(widget.movie.id, episodi),
-          ],
+              SerieEpisodes(widget.movie.id, episodi, widget.movie,
+                  selectedSeason?.split(" ").last ?? "0"),
+            ],
+          ),
         ),
       ),
     );
@@ -357,8 +371,11 @@ class FeedbackButton extends StatelessWidget {
 // ignore: must_be_immutable
 class SerieEpisodes extends StatefulWidget {
   int id;
+  String season;
+  TvBase tvInfo;
   List<EpisodioModel> stagioneSelezionata;
-  SerieEpisodes(this.id, this.stagioneSelezionata, {super.key});
+  SerieEpisodes(this.id, this.stagioneSelezionata, this.tvInfo, this.season,
+      {super.key});
 
   @override
   State<SerieEpisodes> createState() => _SerieEpisodesState();
@@ -368,24 +385,32 @@ class _SerieEpisodesState extends State<SerieEpisodes> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-        padding: const EdgeInsets.all(0),
-        width: MediaQuery.of(context).size.width,
-        height: 180,
-        decoration: const BoxDecoration(
-          color: Color(0x00ffffff),
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.zero,
-        ),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.all(5),
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          itemCount: widget.stagioneSelezionata.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+      margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+      padding: const EdgeInsets.all(0),
+      width: MediaQuery.of(context).size.width,
+      height: 180,
+      decoration: const BoxDecoration(
+        color: Color(0x00ffffff),
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.zero,
+      ),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.all(5),
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        itemCount: widget.stagioneSelezionata.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+            child: InkWell(
+              onTap: () async {
+                await guardaserieProvider(
+                    context,
+                    widget.tvInfo,
+                    widget.stagioneSelezionata[index].episode_number,
+                    widget.season);
+              },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -419,9 +444,11 @@ class _SerieEpisodesState extends State<SerieEpisodes> {
                   ),
                 ],
               ),
-            );
-          },
-        ));
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 

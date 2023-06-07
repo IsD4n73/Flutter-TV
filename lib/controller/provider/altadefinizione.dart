@@ -7,6 +7,9 @@ import '../../commons/vars.dart';
 import 'package:flutter_tv/widget/channel_list.dart';
 import 'package:http/http.dart' as http;
 
+String urlAltadefinizione =
+    "https://altadefinizione.haus/index.php?do=search&subaction=search&story=";
+
 Future<void> altadefinizioneProvider(
     BuildContext context, MovieBase movie) async {
   context.loaderOverlay.show();
@@ -14,8 +17,7 @@ Future<void> altadefinizioneProvider(
   query = query.replaceAll("'", "%27");
 
   final filmResponse = await http.get(
-    Uri.parse(
-        'https://altadefinizione.haus/index.php?do=search&subaction=search&story=$query&sortby=news_read'),
+    Uri.parse('$urlAltadefinizione$query&sortby=news_read'),
     headers: {"user-agent": userAgent},
   );
 
