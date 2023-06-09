@@ -1,5 +1,5 @@
 # Flutter TV
-App per la visione di film, serie tv, liste iptv, sport
+App per la visione di film, serie tv
 
 ## Features
 
