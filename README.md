@@ -7,6 +7,10 @@ App per la visione di film, serie tv
 - Serie TV
 - Ricerca
 
+## Provider
+ WIP
+
+
 ## To-Do
 - [ ] Guarda Film  
 - [ ] Guarda Serie TV
